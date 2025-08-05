@@ -1,14 +1,14 @@
 ﻿using System;
 using System.IO;
 
-namespace CSProjectGroupX
+namespace CSProjectGroup7
 {
     class Program
     {
         static void Main(string[] args)
         {
             // Welcome message
-            Console.WriteLine("🩺 Welcome to the Patient Health Analyzer");
+            Console.WriteLine("Welcome to the Patient Health Analyzer");
 
             // Collect user input
             Console.Write("Enter First Name: ");
@@ -40,6 +40,10 @@ namespace CSProjectGroupX
             string bpResult = patient.EvaluateBloodPressure(systolic, diastolic);
             Console.WriteLine($"Blood Pressure Evaluation: {bpResult}");
 
+            // Calculate BMI and category for saving
+            double bmi = weightKg / Math.Pow(heightCm / 100.0, 2);
+            string bmiCategory = InterpretBMI(bmi);
+
             // Save to file
             string filePath = "PatientRecords.txt";
             using (StreamWriter writer = new StreamWriter(filePath, true))
@@ -48,7 +52,7 @@ namespace CSProjectGroupX
                 writer.WriteLine($"Name: {firstName} {lastName}");
                 writer.WriteLine($"Weight: {weightKg} kg");
                 writer.WriteLine($"Height: {heightCm} cm");
-                writer.WriteLine($"BMI: {weightKg / Math.Pow(heightCm / 100.0, 2):F2}");
+                writer.WriteLine($"BMI: {bmi:F2} ({bmiCategory})");
                 writer.WriteLine($"Systolic: {systolic} mm Hg");
                 writer.WriteLine($"Diastolic: {diastolic} mm Hg");
                 writer.WriteLine($"Blood Pressure Evaluation: {bpResult}");
@@ -56,8 +60,21 @@ namespace CSProjectGroupX
                 writer.WriteLine();
             }
 
-            Console.WriteLine("\n📁 Patient data saved to PatientRecords.txt");
-            Console.WriteLine("✅ Analysis Complete. Stay healthy!");
+            Console.WriteLine("\nPatient data saved to PatientRecords.txt");
+            Console.WriteLine("Analysis Complete. Stay healthy!");
+        }
+
+        // Local method to interpret BMI (same logic as in Patient class)
+        static string InterpretBMI(double bmi)
+        {
+            if (bmi < 18.5)
+                return "Underweight";
+            else if (bmi >= 18.5 && bmi < 24.9)
+                return "Normal";
+            else if (bmi >= 25 && bmi < 29.9)
+                return "Overweight";
+            else
+                return "Obese";
         }
     }
 }

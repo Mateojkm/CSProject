@@ -1,6 +1,6 @@
 using System;
 
-namespace CSProjectGroupX
+namespace CSProjectGroup7
 {
     public class Patient
     {
@@ -68,14 +68,30 @@ namespace CSProjectGroupX
             return weightKg / (heightMeters * heightMeters);
         }
 
+        // Private method to interpret BMI
+        private string InterpretBMI(double bmi)
+        {
+            if (bmi < 18.5)
+                return "Underweight";
+            else if (bmi >= 18.5 && bmi < 24.9)
+                return "Normal";
+            else if (bmi >= 25 && bmi < 29.9)
+                return "Overweight";
+            else
+                return "Obese";
+        }
+
         // Public method to print patient info
         public void PrintPatientInfo()
         {
+            double bmi = CalculateBMI();
+            string bmiCategory = InterpretBMI(bmi);
+
             Console.WriteLine("Patient Information:");
             Console.WriteLine($"Name: {firstName} {lastName}");
             Console.WriteLine($"Weight: {weightKg} kg");
             Console.WriteLine($"Height: {heightCm} cm");
-            Console.WriteLine($"BMI: {CalculateBMI():F2}");
+            Console.WriteLine($"BMI: {bmi:F2} ({bmiCategory})");
         }
     }
 }
