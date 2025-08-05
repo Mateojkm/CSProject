@@ -1,58 +1,81 @@
-public class Patient
+using System;
+
+namespace CSProjectGroupX
 {
-    // Private fields
-    private string firstName;
-    private string lastName;
-    private double weight; // in kg
-    private double height; // in cm
-
-    // Public properties
-    public string FirstName { get => firstName; set => firstName = value; }
-    public string LastName { get => lastName; set => lastName = value; }
-    public double Weight { get => weight; set => weight = value; }
-    public double Height { get => height; set => height = value; }
-
-    // Constructor
-    public Patient(string firstName, string lastName, double weight, double height)
+    public class Patient
     {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.weight = weight;
-        this.height = height;
-    }
+        // Private fields
+        private string firstName;
+        private string lastName;
+        private double weightKg;
+        private double heightCm;
 
-    // Public method for blood pressure
-    public string CheckBloodPressure(int systolic, int diastolic)
-    {
-        if (systolic < 90 || diastolic < 60 || systolic > 180 || diastolic > 120)
-            return "Warning: Blood pressure values are out of safe range.";
+        // Public properties
+        public string FirstName
+        {
+            get { return firstName; }
+            set { firstName = value; }
+        }
 
-        if (systolic < 120 && diastolic < 80)
-            return "Normal";
-        else if (systolic < 130 && diastolic < 80)
-            return "Elevated";
-        else if (systolic < 140 || diastolic < 90)
-            return "Hypertension Stage 1";
-        else if (systolic < 180 || diastolic < 120)
-            return "Hypertension Stage 2";
-        else
-            return "Hypertensive Crisis";
-    }
+        public string LastName
+        {
+            get { return lastName; }
+            set { lastName = value; }
+        }
 
-    // Private method for BMI
-    private double CalculateBMI()
-    {
-        double heightInMeters = height / 100;
-        return weight / (heightInMeters * heightInMeters);
-    }
+        public double WeightKg
+        {
+            get { return weightKg; }
+            set { weightKg = value; }
+        }
 
-    // Public method to display patient info
-    public void DisplayPatientInfo(int systolic, int diastolic)
-    {
-        Console.WriteLine($"Name: {FirstName} {LastName}");
-        Console.WriteLine($"Weight: {Weight} kg");
-        Console.WriteLine($"Height: {Height} cm");
-        Console.WriteLine($"Blood Pressure Status: {CheckBloodPressure(systolic, diastolic)}");
-        Console.WriteLine($"BMI: {CalculateBMI():F2}");
+        public double HeightCm
+        {
+            get { return heightCm; }
+            set { heightCm = value; }
+        }
+
+        // Constructor
+        public Patient(string firstName, string lastName, double weightKg, double heightCm)
+        {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.weightKg = weightKg;
+            this.heightCm = heightCm;
+        }
+
+        // Public method to evaluate blood pressure
+        public string EvaluateBloodPressure(int systolic, int diastolic)
+        {
+            if (systolic < 120 && diastolic < 80)
+                return "NORMAL";
+            else if (systolic >= 120 && systolic <= 129 && diastolic < 80)
+                return "ELEVATED";
+            else if ((systolic >= 130 && systolic <= 139) || (diastolic >= 80 && diastolic <= 89))
+                return "HIGH BLOOD PRESSURE (HYPERTENSION) STAGE 1";
+            else if ((systolic >= 140 && systolic <= 180) || (diastolic >= 90 && diastolic <= 120))
+                return "HIGH BLOOD PRESSURE (HYPERTENSION) STAGE 2";
+            else if (systolic > 180 || diastolic > 120)
+                return "HYPERTENSIVE CRISIS (consult your doctor immediately)";
+            else
+                return "Invalid blood pressure values.";
+        }
+
+        // Private method to calculate BMI
+        private double CalculateBMI()
+        {
+            double heightMeters = heightCm / 100.0;
+            return weightKg / (heightMeters * heightMeters);
+        }
+
+        // Public method to print patient info
+        public void PrintPatientInfo()
+        {
+            Console.WriteLine("Patient Information:");
+            Console.WriteLine($"Name: {firstName} {lastName}");
+            Console.WriteLine($"Weight: {weightKg} kg");
+            Console.WriteLine($"Height: {heightCm} cm");
+            Console.WriteLine($"BMI: {CalculateBMI():F2}");
+        }
     }
 }
